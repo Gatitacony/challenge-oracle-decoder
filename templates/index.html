@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Encriptador de texto</title>
+    <link rel="stylesheet" href="/static/css/styles.css">
+</head>
+<body>
+
+    <main>
+        <canvas id="matrix"></canvas>
+        <div class="container">
+            <div class="left-section">
+                <h1>Ingrese el texto aquí</h1>
+                <textarea id="text-input" placeholder="Ingresa el texto aquí"></textarea>
+                <div class="button-section">
+                    <button id="encrypt-button">Encriptar</button>
+                    <button id="decrypt-button">Desencriptar</button>
+                </div>
+            </div>
+            <div class="right-section">
+                <div id="mensaje" class="card">
+                    <img src="/static/images/observador.png" alt="obvservador">
+                    <h1>Ningún mensaje fue encontrado</h1>
+                    <p>Ingresa el texto que desees encriptar o desencriptar.</p>
+                </div>
+                <textarea  style="display: none;" id="text-output" readonly placeholder="El resultado aparecerá aquí"></textarea>
+                <button style="display: none;" id="copy-button">Copiar</button>
+            </div>
+        </div>
+    </main>
+    <footer>
+        <p>&copy; 2024 Franciny Huaiquil</p>
+    </footer>
+    <audio id="backgroundMusic" src="/static/audio/efecto-sonido-codigo-binario.mp3" loop></audio>
+    <script src="/static/js/scripts.js"></script>
+    </body>
+    </html>
