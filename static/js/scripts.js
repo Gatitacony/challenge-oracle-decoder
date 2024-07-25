@@ -28,8 +28,15 @@ window.addEventListener('resize', () => {
     canvas.height = window.innerHeight;
 });
 
+const validateInput = (text) => {
+    return /^[a-z\s]*$/.test(text);
+};
+
 document.addEventListener('DOMContentLoaded', function() {
     const audio = document.getElementById('backgroundMusic');
+    const muteButton = document.getElementById('mute-button');
+    const volumeControl = document.getElementById('volume-control');
+    const errorMessage = document.getElementById('error-message');
 
     const playAudio = () => {
         audio.play().catch(error => {
@@ -39,6 +46,16 @@ document.addEventListener('DOMContentLoaded', function() {
     };
 
     document.body.addEventListener('click', playAudio);
+
+    muteButton.addEventListener('click', () => {
+        audio.muted = !audio.muted;
+        const icon = audio.muted ? 'fa-volume-mute' : 'fa-volume-up';
+        muteButton.innerHTML = `<i class="fas ${icon}"></i>`;
+    });
+
+    volumeControl.addEventListener('input', (event) => {
+        audio.volume = event.target.value;
+    });
 
     const textInput = document.getElementById('text-input');
     const textOutput = document.getElementById('text-output');
@@ -64,50 +81,62 @@ document.addEventListener('DOMContentLoaded', function() {
             .replace(/ufat/g, 'u');
     };
 
-    encryptButton.addEventListener('click', () => {
-        const inputText = textInput.value;
-        if (inputText) {
-            const encryptedText = encrypt(inputText);
-            textOutput.value = encryptedText;
+    const handleEncryption = () => {
+        const inputText = textInput.value.trim();
+        if (!validateInput(inputText)) {
+            errorMessage.textContent = 'Solo se permiten letras minúsculas y sin acentos ni caracteres especiales.';
+            errorMessage.style.display = 'block';
+            return;
         }
-    });
+        errorMessage.style.display = 'none';
+        const encryptedText = encrypt(inputText);
+        textOutput.value = encryptedText;
+        updateOutputVisibility(true);
+    };
 
-    decryptButton.addEventListener('click', () => {
-        const inputText = textInput.value;
-        if (inputText) {
-            const decryptedText = decrypt(inputText);
-            textOutput.value = decryptedText;
+    const handleDecryption = () => {
+        const inputText = textInput.value.trim();
+        if (!validateInput(inputText)) {
+            errorMessage.textContent = 'Solo se permiten letras minúsculas y sin acentos ni caracteres especiales.';
+            errorMessage.style.display = 'block';
+            return;
         }
-    });
+        errorMessage.style.display = 'none';
+        const decryptedText = decrypt(inputText);
+        textOutput.value = decryptedText;
+        updateOutputVisibility(true);
+    };
+
+    const updateOutputVisibility = (showOutput) => {
+        const mensajeDiv = document.getElementById('mensaje');
+        if (showOutput) {
+            mensajeDiv.style.display = 'none';
+            textOutput.style.display = 'block';
+            copyButton.style.display = 'block';
+        } else {
+            mensajeDiv.style.display = 'block';
+            textOutput.style.display = 'none';
+            copyButton.style.display = 'none';
+        }
+    };
+
+    encryptButton.addEventListener('click', handleEncryption);
+    decryptButton.addEventListener('click', handleDecryption);
 
     copyButton.addEventListener('click', () => {
         textOutput.select();
         document.execCommand('copy');
     });
-});
-
-document.addEventListener('DOMContentLoaded', function() {
-    const textInput = document.getElementById('text-input');
-    const mensajeDiv = document.getElementById('mensaje');
-    const textOutput = document.getElementById('text-output');
-    const copyButton = document.getElementById('copy-button');
 
     textInput.addEventListener('input', function() {
         const inputText = textInput.value.trim();
-
-        if (inputText.length > 0) {
-            // Mostrar resultados y ocultar mensaje inicial
-            mensajeDiv.style.display = 'none';
-            textOutput.style.display = 'block';
-            copyButton.style.display = 'block';
-
-            // Actualizar contenido del text-output
-            textOutput.value = inputText;
+        if (!validateInput(inputText)) {
+            errorMessage.textContent = 'Solo se permiten letras minúsculas y sin acentos ni caracteres especiales.';
+            errorMessage.style.display = 'block';
+            updateOutputVisibility(false);
         } else {
-            // Mostrar mensaje inicial y ocultar resultados
-            mensajeDiv.style.display = 'block';
-            textOutput.style.display = 'none';
-            copyButton.style.display = 'none';
+            errorMessage.style.display = 'none';
+            updateOutputVisibility(false);
         }
     });
 });
