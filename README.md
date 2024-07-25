@@ -1,6 +1,6 @@
 # Challenge Oracle Decoder
 
-![Interfaz Principal](/static/images/matrix-actor.jpg)
+![Interfaz Principal](/docs/static/images/matrix-actor.jpg)
 
 ## Descripción
 
@@ -24,8 +24,8 @@ El Challenge Oracle Decoder es una aplicación web interactiva que permite a los
 
 ## Capturas de Pantalla
 
-![Screenshot1](/static/images/encriptador.png)
-![Screenshot2](/static/images/encriptando.png)
+![Screenshot1](/docs/static/images/encriptador.png)
+![Screenshot2](/docs/static/images/encriptando.png)
 
 ## Instalación
 
